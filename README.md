@@ -16,11 +16,11 @@
 
 ## 研究结果
 
-![MapReduceVsSpark](.\attachments\MapReduceVsSpark.png)
+![MapReduceVsSpark](./attachments/MapReduceVsSpark.png)
 
 对于主体实验，随着迭代次数的增加，Spark执行时间增长有放缓的趋势（类似对数），而MapReduce执行时间增长十分均等（线性），从而表明至少在执行时间的角度，Spark比MapReduce更适合迭代任务。
 
-![Flink](.\attachments\Flink.png)
+![Flink](./attachments/Flink.png)
 
 对于补充实验，Flink前部分单轮迭代时间（如1.50s）普遍高于后部分单轮迭代时间（如1.09s），从而彰显对迭代任务的适应。
 
