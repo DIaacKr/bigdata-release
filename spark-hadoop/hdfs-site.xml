@@ -1,0 +1,50 @@
+<configuration>
+  <!-- 数据块的默认大小 -->
+  <property>
+    <name>dfs.blocksize</name>
+    <value>134217728</value> <!-- 128 MB -->
+  </property>
+
+  <!-- HDFS 的默认副本因子 -->
+  <property>
+    <name>dfs.replication</name>
+    <value>2</value> <!-- 适合小型集群，生产环境可调整为 3 -->
+  </property>
+
+  <property>
+    <name>dfs.webhdfs.enabled</name>
+    <value>true</value>
+  </property>
+
+  <!-- NameNode 的数据存储目录 -->
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file:///hadoop/dfs/name</value>
+  </property>
+
+  <!-- DataNode 的数据存储目录 -->
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:///hadoop/dfs/data</value>
+  </property>
+
+  <!-- NameNode Web UI 的绑定地址 -->
+  <property>
+    <name>dfs.namenode.http-address</name>
+    <value>0.0.0.0:50070</value>
+  </property>
+
+
+  <!-- DataNode Web UI 的绑定地址 -->
+  <property>
+    <name>dfs.datanode.http.address</name>
+    <value>0.0.0.0:50075</value>
+  </property>
+  
+  <property>
+    <name>dfs.namenode.priority.adjustment</name>
+    <value>false</value> <!-- 禁用优先级调整 -->
+  </property>
+
+
+</configuration>

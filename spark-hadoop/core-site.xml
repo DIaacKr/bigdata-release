@@ -1,0 +1,25 @@
+<configuration>
+  <!-- HDFS 的默认文件系统 URI -->
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://hadoop-spark-master:9000</value>
+  </property>
+
+  <!-- I/O 文件缓存的大小 -->
+  <property>
+    <name>io.file.buffer.size</name>
+    <value>131072</value>
+  </property>
+
+  <!-- RPC 连接超时设置 -->
+  <property>
+    <name>ipc.client.connect.timeout</name>
+    <value>10000</value>
+  </property>
+
+  <!-- 临时目录设置 -->
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/tmp/hadoop-${user.name}</value>
+  </property>
+</configuration>

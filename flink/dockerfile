@@ -1,0 +1,36 @@
+# 基于官方 Flink 镜像
+FROM flink:latest
+
+# 更新软件源，安装 Python、pip 和 SSH 服务
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip openssh-server && \
+    pip3 install --upgrade pip && \
+    pip3 install apache-flink -i https://mirrors.aliyun.com/pypi/simple/ && \
+    mkdir /var/run/sshd && \
+    echo "root:password" | chpasswd  # 设置 root 密码为 'password'
+
+# 配置 SSH
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# 配置免密 SSH
+RUN ssh-keygen -t rsa -q -f /root/.ssh/id_rsa -N "" && \
+    cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys && \
+    chmod 600 /root/.ssh/authorized_keys && \
+    chmod 700 /root/.ssh
+
+# 设置工作目录
+WORKDIR /opt/flink
+
+# 复制 Python 脚本（如果有需要的话）
+# COPY your_python_script.py /opt/flink/
+
+# 暴露端口
+EXPOSE 22
+EXPOSE 8081  
+
+# 启动脚本：运行 SSH 服务并保持容器运行
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

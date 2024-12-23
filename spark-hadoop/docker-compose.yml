@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  hadoop-spark-master:
+    privileged: true
+    cap_add:
+      - SYS_NICE
+    image: my-spark-hadoop-image
+    container_name: hadoop-spark-master
+    environment:
+      - SPARK_MODE=master
+      - SPARK_MASTER_PORT=7077
+      - SPARK_MASTER_WEBUI_PORT=8080
+    ports:
+      - "4040:4040"
+      - "8080:8080"   # Spark Master Web UI
+      - "7077:7077"   # Spark Master RPC
+      - "50070:50070" # Hadoop NameNode Web UI
+      - "9000:9000"   # Hadoop NameNode RPC
+    networks:
+      - hadoop-spark-network
+    
+    
+
+
+  hadoop-spark-worker1:
+    image: my-spark-hadoop-image
+    container_name: hadoop-spark-worker1
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://hadoop-spark-master:7077
+      - SPARK_WORKER_WEBUI_PORT=8081
+    ports:
+      - "8081:8081"   # Spark Worker Web UI
+      - "50075:50075" # Hadoop DataNode Web UI
+    networks:
+      - hadoop-spark-network
+    depends_on:
+      - hadoop-spark-master
+  
+    
+
+
+  hadoop-spark-worker2:
+    image: my-spark-hadoop-image
+    container_name: hadoop-spark-worker2
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://hadoop-spark-master:7077
+      - SPARK_WORKER_WEBUI_PORT=8082
+    ports:
+      - "8082:8082"   # Spark Worker Web UI
+      - "50076:50076" # Hadoop DataNode Web UI
+    networks:
+      - hadoop-spark-network
+    depends_on:
+      - hadoop-spark-master
+    
+
+
+networks:
+  hadoop-spark-network:
+    driver: bridge
