@@ -29,14 +29,19 @@ eg:
 在h01中进行如下：  
 开启hadoop，执行:`bash start-all.sh`  
 在hdfs中创建文件夹`/center_input`和`/data_input_all`  
-将`center.csv`上传至`/center_input`，将`data.csv`上传至`/data_input_all`  
+将`centers.csv`上传至`/center_input`，将`data.csv`上传至`/data_input_all`  
 若有`/kmeans_output`文件夹需要删除    
+```
+hdfs dfs -mkdir /center_input
+hdfs dfs -mkdir /data_input_all
+hdfs dfs -put /root/centers.csv /center_input
+hdfs dfs -put /root/data.csv /data_input_all
+rm -rf /kmeans_output
+```
+
 
 取消安全模式：`hdfs dfsadmin -safemode leave`  
-可运行`top.py`脚本作为性能检测  
-运行限定迭代次数为5的kmeans测试：`hadoop jar kmeans_all_5.jar`  
-测试结束后自行Ctrl+C暂停`top.py`脚本  
-
+运行限定迭代次数为5的kmeans测试：`hadoop jar /root/kmeans_all_5.jar`  
 退出：`bash stop-all.sh`  
 再次开启环境使用`docker restart h01 h02 h03`
 
